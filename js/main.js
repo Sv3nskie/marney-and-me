@@ -77,7 +77,7 @@
     let g = 0;
     for (const el of grounds) {
       const b = el.getBoundingClientRect();
-      g = Math.max(g, Math.min(clamp((vh * 0.85 - b.top) / (vh * 0.35)), clamp((b.bottom - vh * 0.65) / (vh * 0.35))));
+      g = Math.max(g, Math.min(clamp((vh * 0.85 - b.top) / (vh * 0.35)), clamp((b.bottom - vh * 0.05) / (vh * 0.35))));
     }
     root.style.setProperty('--g', g.toFixed(4));
   }
