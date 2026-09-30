@@ -7,6 +7,7 @@
   const rm = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = x => x < 0 ? 0 : x > 1 ? 1 : x;
   const ease = t => 1 - Math.pow(1 - t, 3);
+  const smooth = t => t * t * (3 - 2 * t);   // data-ease="inout": a gentle start and finish
 
   const grounds = Array.from(document.querySelectorAll('[data-ground]'));
 
@@ -49,7 +50,7 @@
       const staged = Array.from(el.querySelectorAll('[data-w]')).map(c => {
         const n = c.dataset.w.split(/\s+/).map(Number);
         const rel = c.hasAttribute('data-rel');
-        return { el: c, s: n[0] || 0, d: n[1] || 0.3, st: n[2] || 0, i: Number(c.dataset.i || 0), rel, top: rel ? docTop(c) : 0 };
+        return { el: c, ez: c.dataset.ease === 'inout' ? smooth : ease, s: n[0] || 0, d: n[1] || 0.3, st: n[2] || 0, i: Number(c.dataset.i || 0), rel, top: rel ? docTop(c) : 0 };
       });
       return { el, kind: el.dataset.scene, v: el.dataset.var, stage: el.querySelector('.stage'), track, over, staged };
     });
@@ -84,7 +85,7 @@
       for (const c of s.staged) {
         let w = 1;
         if (!still && c.rel) w = ease(clamp((vh - (c.top - scrollY) - c.s * vh) / (c.d * vh)));
-        else if (!still) w = ease(clamp((p - c.s - c.i * c.st) / c.d));
+        else if (!still) w = c.ez(clamp((p - c.s - c.i * c.st) / c.d));
         c.el.style.setProperty('--w', w.toFixed(4));
         // The logo rides up with the curtain until it reaches its place in the header.
         if (c.el === curtain) root.style.setProperty('--lt', clamp(w * c.el.offsetHeight / Math.max(1, dockDy)).toFixed(4));
