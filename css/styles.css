@@ -249,14 +249,6 @@ a:hover { color: var(--color-accent-300); }
 .scroll-cue::after { content: ""; display: block; width: 1px; height: 56px; background: linear-gradient(to bottom, var(--color-accent), transparent); }
 .curtain .rule { position: absolute; left: 0; right: 0; bottom: 0; }
 
-/* — intro — */
-.intro { padding: 20vh var(--gutter) 12vh; max-width: 1200px; }
-.statement {
-  font-family: var(--font-heading); font-weight: 500;
-  font-size: clamp(26px, 3.3vw, 46px); line-height: 1.18; letter-spacing: -0.018em;
-  max-width: 27ch; margin-top: 24px;
-}
-
 /* — new arrivals — */
 .arrivals { height: 230vh; }
 .arrivals .stage {
