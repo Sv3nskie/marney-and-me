@@ -267,7 +267,7 @@ a:hover { color: var(--color-accent-300); }
 .curtain .rule { position: absolute; left: 0; right: 0; bottom: 0; }
 
 /* — new arrivals — */
-.arrivals { height: 230vh; }
+.arrivals { height: 190vh; }
 .arrivals .stage {
   display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 3vh;
   padding: calc(64px + 3vh) var(--gutter) 5vh; perspective: 1400px;
