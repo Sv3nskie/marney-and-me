@@ -55,10 +55,13 @@
     });
     // Logo dock: where the nav logo has to sit to fill the slot on the hero curtain.
     if (mark && brand) {
-      let left = 0;
-      for (let n = mark; n; n = n.offsetParent) left += n.offsetLeft;
+      // Measured against the pinned stage (not the document): the stage is sticky, so
+      // its own offset moves with the scroll and must stay out of the sum.
+      const stage = mark.closest('.stage');
+      let left = 0, top = 0;
+      for (let n = mark; n && n !== stage; n = n.offsetParent) { left += n.offsetLeft; top += n.offsetTop; }
       const b = brand.getBoundingClientRect(), img = brand.querySelector('img');
-      dockDy = docTop(mark) - (b.top + (b.height - img.offsetHeight) / 2);
+      dockDy = top - (b.top + (b.height - img.offsetHeight) / 2);
       root.style.setProperty('--lx', (left - b.left).toFixed(1) + 'px');
       root.style.setProperty('--ly', dockDy.toFixed(1) + 'px');
       root.style.setProperty('--ls', (mark.offsetWidth / img.offsetWidth).toFixed(4));

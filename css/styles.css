@@ -239,9 +239,11 @@ a:hover { color: var(--color-accent-300); }
   position: absolute; inset: 0;
   transform: translateY(calc(var(--w, 1) * -100%)); will-change: transform;
   background: var(--stage-bg);
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 0 var(--gutter);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 0 var(--gutter); text-align: center;
 }
+.curtain .kicker::after { content: ""; display: block; flex: none; width: 44px; height: 1px; background: var(--color-accent); }
+.curtain .wordmark { margin-left: 0; }
 .curtain-mark { width: clamp(72px, 8vw, 120px); aspect-ratio: 85 / 89.91; margin-bottom: clamp(24px, 5vh, 48px); }
 .wordmark {
   font-size: clamp(56px, min(12vw, 24vh), 176px); line-height: 0.95; letter-spacing: -0.035em;
@@ -249,7 +251,7 @@ a:hover { color: var(--color-accent-300); }
 }
 .wordmark span { color: var(--color-accent); }
 .scroll-cue {
-  position: absolute; right: var(--gutter); bottom: 6vh;
+  position: absolute; left: 50%; bottom: 5vh; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 10px; flex: none; padding-bottom: 6px;
   font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400);
 }
