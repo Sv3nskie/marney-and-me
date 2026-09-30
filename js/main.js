@@ -1,6 +1,6 @@
 // Marney & Me — scroll engine. All motion is a pure function of scroll position:
 // this file only writes CSS custom properties (--p, --w, --x, --sp, --hp, --g),
-// where --g is the dark → light ground shift that re-themes the whole page,
+// where --g is the ground shift that lifts the page to a lighter slate,
 // the stylesheet does the rest, so everything reverses when scrolling back up.
 (() => {
   const root = document.documentElement;
@@ -72,7 +72,7 @@
       }
       if (s.track) s.track.style.setProperty('--x', (-raw * s.over).toFixed(1) + 'px');
     }
-    // Ground shift: the page fades to light as a [data-ground] chapter takes over
+    // Ground shift: the page lifts to the lighter slate as a [data-ground] chapter takes over
     // the viewport and back to dark as it leaves.
     let g = 0;
     for (const el of grounds) {
