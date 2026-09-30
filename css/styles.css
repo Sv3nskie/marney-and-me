@@ -393,6 +393,9 @@ a:hover { color: var(--color-accent-300); }
   transform: translateY(calc((var(--p, 0.5) - 0.5) * 14%));
 }
 .wine-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+/* Second photo: crossfades in over the first as the band passes the middle of the viewport */
+.wine-photo--next { opacity: clamp(0, calc((var(--p, 0.5) - 0.4) * 5), 1); }
+.wine-photo--next img { object-position: 50% 45%; }
 .wine-wash {
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(22, 24, 38, 0.94), rgba(22, 24, 38, 0.55) 50%, rgba(22, 24, 38, 0.30));
