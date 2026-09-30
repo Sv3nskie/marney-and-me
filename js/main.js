@@ -52,7 +52,7 @@
         const rel = c.hasAttribute('data-rel');
         return { el: c, ez: c.dataset.ease === 'inout' ? smooth : ease, s: n[0] || 0, d: n[1] || 0.3, st: n[2] || 0, i: Number(c.dataset.i || 0), rel, top: rel ? docTop(c) : 0 };
       });
-      return { el, kind: el.dataset.scene, v: el.dataset.var, stage: el.querySelector('.stage'), track, over, staged };
+      return { el, kind: el.dataset.scene, v: el.dataset.var, lead: Number(el.dataset.lead || 0), stage: el.querySelector('.stage'), track, over, staged };
     });
     // Logo dock: where the nav logo has to sit to fill the slot on the hero curtain.
     if (mark && brand) {
@@ -75,7 +75,9 @@
     root.style.setProperty('--sp', clamp(scrollY / Math.max(1, root.scrollHeight - vh)).toFixed(4));
     for (const s of scenes) {
       const b = s.el.getBoundingClientRect();
-      const raw = clamp(s.kind === 'pin' ? -b.top / Math.max(1, b.height - (s.stage ? s.stage.offsetHeight : vh))
+      // data-lead: a pinned scene may start its progress that many viewports before it pins
+      const lead = s.lead * vh;
+      const raw = clamp(s.kind === 'pin' ? (lead - b.top) / Math.max(1, b.height - (s.stage ? s.stage.offsetHeight : vh) + lead)
         : s.kind === 'par' ? (vh - b.top) / (vh + b.height)
         : (vh - b.top) / (vh * 0.65));
       const p = still ? 1 : raw;
