@@ -268,7 +268,7 @@ a:hover { color: var(--color-accent-300); }
   z-index: calc(3 - var(--ak));
   transform-origin: 50% 140%; will-change: transform; perspective: 900px;
   transform:
-    translateX(calc(var(--w, 1) * var(--k) * min(6vw, 56px)))
+    translateX(calc(var(--w, 1) * var(--k) * clamp(22px, 10vw - 20px, 140px)))
     rotate(calc(var(--k) * (1.5deg + var(--w, 1) * 10.5deg)))
     translateY(calc((1 - var(--w, 1)) * 24px))
     rotateY(calc(var(--k) * 8deg * var(--w, 1)))
