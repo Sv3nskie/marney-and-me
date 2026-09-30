@@ -18,7 +18,6 @@
 <body>
 <div class="page">
 
-  <div class="ground" aria-hidden="true"></div>
   <div class="shade" aria-hidden="true"></div>
 
   <nav class="site-nav" aria-label="Main">
@@ -37,7 +36,7 @@
   <div class="progress" aria-hidden="true"></div>
 
   <!-- HERO — pinned; the curtain rises, the town appears, the line assembles -->
-  <section id="top" class="pin hero" data-scene="pin" data-var="hp">
+  <section id="top" class="pin hero dark" data-scene="pin" data-var="hp">
     <div class="stage">
       <div class="hero-photo lighten">
         <img src="assets/ibiza-dusk.jpg" alt="Ibiza Town at dusk, the streets lit">
@@ -68,7 +67,7 @@
   </section>
 
   <!-- NEW ARRIVALS — pinned; five cards fan out from one stack -->
-  <section id="new" class="pin arrivals light" data-scene="pin">
+  <section id="new" class="pin arrivals" data-scene="pin">
     <div class="stage">
       <header class="head-row">
         <div>
@@ -209,7 +208,7 @@
   </section>
 
   <!-- INSIDE — the rooms themselves; three frames drop in at different depths -->
-  <section id="inside" class="inside light" data-scene="par">
+  <section id="inside" class="inside" data-scene="par" data-ground>
     <div class="wrap">
       <header class="head-row">
         <div>
@@ -242,7 +241,7 @@
   </section>
 
   <!-- SHOPPING & WINE — full-bleed parallax band -->
-  <section class="wine" data-scene="par">
+  <section class="wine dark" data-scene="par">
     <div class="wine-photo lighten">
       <img src="assets/harbour.jpg" alt="The harbour of Ibiza Town" loading="lazy">
     </div>
@@ -253,6 +252,9 @@
       <p class="lede rv" data-w="0.26 0.3">Every visit comes with a glass of something cold. Take your time — the town isn't going anywhere.</p>
     </div>
   </section>
+
+  <!-- OUTRO — the shops and the footer share the dog-mark watermark -->
+  <div class="outro">
 
   <!-- THE TWO SHOPS -->
   <section id="shops" class="shops" data-scene="view">
@@ -305,6 +307,8 @@
     </div>
     <span>© 2026 Marney &amp; Me</span>
   </footer>
+
+  </div>
 
 </div>
 <script src="js/main.js"></script>

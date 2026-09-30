@@ -1,5 +1,6 @@
 // Marney & Me — scroll engine. All motion is a pure function of scroll position:
 // this file only writes CSS custom properties (--p, --w, --x, --sp, --hp, --g),
+// where --g is the dark → light ground shift that re-themes the whole page,
 // the stylesheet does the rest, so everything reverses when scrolling back up.
 (() => {
   const root = document.documentElement;
@@ -7,10 +8,9 @@
   const clamp = x => x < 0 ? 0 : x > 1 ? 1 : x;
   const ease = t => 1 - Math.pow(1 - t, 3);
 
-  const nav = document.querySelector('.site-nav');
-  const lights = Array.from(document.querySelectorAll('.light'));
+  const grounds = Array.from(document.querySelectorAll('[data-ground]'));
 
-  let scenes = [], ground = null, still = false, raf = 0;
+  let scenes = [], still = false, raf = 0;
 
   // Split "data-split" text into one staged span per word.
   for (const el of document.querySelectorAll('[data-split]')) {
@@ -49,7 +49,6 @@
       });
       return { el, kind: el.dataset.scene, v: el.dataset.var, stage: el.querySelector('.stage'), track, over, staged };
     });
-    ground = document.querySelector('[data-ground]');
   }
 
   function update() {
@@ -73,16 +72,14 @@
       }
       if (s.track) s.track.style.setProperty('--x', (-raw * s.over).toFixed(1) + 'px');
     }
-    const probe = nav.offsetHeight / 2;
-    nav.classList.toggle('on-light', lights.some(el => {
+    // Ground shift: the page fades to light as a [data-ground] chapter takes over
+    // the viewport and back to dark as it leaves.
+    let g = 0;
+    for (const el of grounds) {
       const b = el.getBoundingClientRect();
-      return b.top <= probe && b.bottom > probe;
-    }));
-    if (ground) {
-      const b = ground.getBoundingClientRect();
-      const g = Math.min(clamp((vh * 0.9 - b.top) / (vh * 0.45)), clamp((b.bottom - vh * 0.8) / (vh * 0.4)));
-      root.style.setProperty('--g', g.toFixed(4));
+      g = Math.max(g, Math.min(clamp((vh * 0.85 - b.top) / (vh * 0.35)), clamp((b.bottom - vh * 0.65) / (vh * 0.35))));
     }
+    root.style.setProperty('--g', g.toFixed(4));
   }
 
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
