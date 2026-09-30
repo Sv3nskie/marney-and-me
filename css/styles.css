@@ -188,11 +188,18 @@ a:hover { color: var(--color-accent-300); }
 .nav-brand {
   --on: clamp(0, calc((var(--hp, 1) - 0.5) * 4), 1);
   display: flex; align-items: center; gap: 10px; margin-right: auto;
-  opacity: var(--on);
-  transform: translateY(calc((1 - var(--on)) * -6px));
 }
-.nav-brand img { width: 22px; height: 23px; }
-.nav-brand span { font-family: var(--font-heading); font-weight: 500; font-size: 16px; letter-spacing: -0.01em; white-space: nowrap; }
+/* The mark starts large above the wordmark on the hero curtain and docks here:
+   --lt (0 → 1), --lx/--ly (offset to the curtain slot) and --ls (scale) come from js/main.js */
+.nav-brand img {
+  width: 22px; height: 23px; transform-origin: 0 0;
+  transform:
+    translate(calc((1 - var(--lt, 1)) * var(--lx, 0px)), calc((1 - var(--lt, 1)) * var(--ly, 0px)))
+    scale(calc(1 + (1 - var(--lt, 1)) * (var(--ls, 1) - 1)));
+}
+.nav-brand span {
+  opacity: var(--on); transform: translateY(calc((1 - var(--on)) * -6px));
+  font-family: var(--font-heading); font-weight: 500; font-size: 16px; letter-spacing: -0.01em; white-space: nowrap; }
 .nav-links { display: flex; align-items: center; gap: var(--space-6); font-size: 14px; flex-wrap: wrap; justify-content: flex-end; }
 .site-nav .btn { flex: none; }
 .progress {
@@ -229,21 +236,20 @@ a:hover { color: var(--color-accent-300); }
 }
 .hero-copy .btn-row { --d: 24px; margin-top: 26px; }
 .curtain {
-  position: absolute; left: 0; right: 0; top: 0; height: 88%;
+  position: absolute; inset: 0;
   transform: translateY(calc(var(--w, 1) * -100%)); will-change: transform;
   background: var(--stage-bg);
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 var(--gutter) 7vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 var(--gutter);
 }
-.curtain-mark { position: absolute; top: 26px; left: var(--gutter); width: 60px; height: 63px; }
-.curtain-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.curtain-row > :first-child { min-width: 0; }
+.curtain-mark { width: clamp(72px, 8vw, 120px); aspect-ratio: 85 / 89.91; margin-bottom: clamp(24px, 5vh, 48px); }
 .wordmark {
   font-size: clamp(56px, min(12vw, 24vh), 176px); line-height: 0.95; letter-spacing: -0.035em;
   margin: 22px 0 0 -0.06em; text-wrap: balance;
 }
 .wordmark span { color: var(--color-accent); }
 .scroll-cue {
+  position: absolute; right: var(--gutter); bottom: 6vh;
   display: flex; flex-direction: column; align-items: center; gap: 10px; flex: none; padding-bottom: 6px;
   font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400);
 }

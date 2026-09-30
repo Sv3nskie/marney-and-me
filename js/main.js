@@ -10,7 +10,11 @@
 
   const grounds = Array.from(document.querySelectorAll('[data-ground]'));
 
-  let scenes = [], still = false, raf = 0;
+  const curtain = document.querySelector('.curtain');
+  const mark = document.querySelector('[data-mark]');
+  const brand = document.querySelector('.nav-brand');
+
+  let scenes = [], still = false, raf = 0, dockDy = 1;
 
   // Split "data-split" text into one staged span per word.
   for (const el of document.querySelectorAll('[data-split]')) {
@@ -49,6 +53,16 @@
       });
       return { el, kind: el.dataset.scene, v: el.dataset.var, stage: el.querySelector('.stage'), track, over, staged };
     });
+    // Logo dock: where the nav logo has to sit to fill the slot on the hero curtain.
+    if (mark && brand) {
+      let left = 0;
+      for (let n = mark; n; n = n.offsetParent) left += n.offsetLeft;
+      const b = brand.getBoundingClientRect(), img = brand.querySelector('img');
+      dockDy = docTop(mark) - (b.top + (b.height - img.offsetHeight) / 2);
+      root.style.setProperty('--lx', (left - b.left).toFixed(1) + 'px');
+      root.style.setProperty('--ly', dockDy.toFixed(1) + 'px');
+      root.style.setProperty('--ls', (mark.offsetWidth / img.offsetWidth).toFixed(4));
+    }
   }
 
   function update() {
@@ -69,6 +83,8 @@
         if (!still && c.rel) w = ease(clamp((vh - (c.top - scrollY) - c.s * vh) / (c.d * vh)));
         else if (!still) w = ease(clamp((p - c.s - c.i * c.st) / c.d));
         c.el.style.setProperty('--w', w.toFixed(4));
+        // The logo rides up with the curtain until it reaches its place in the header.
+        if (c.el === curtain) root.style.setProperty('--lt', clamp(w * c.el.offsetHeight / Math.max(1, dockDy)).toFixed(4));
       }
       if (s.track) s.track.style.setProperty('--x', (-raw * s.over).toFixed(1) + 'px');
     }
