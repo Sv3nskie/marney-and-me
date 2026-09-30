@@ -7,6 +7,9 @@
   const clamp = x => x < 0 ? 0 : x > 1 ? 1 : x;
   const ease = t => 1 - Math.pow(1 - t, 3);
 
+  const nav = document.querySelector('.site-nav');
+  const lights = Array.from(document.querySelectorAll('.light'));
+
   let scenes = [], ground = null, still = false, raf = 0;
 
   // Split "data-split" text into one staged span per word.
@@ -70,6 +73,11 @@
       }
       if (s.track) s.track.style.setProperty('--x', (-raw * s.over).toFixed(1) + 'px');
     }
+    const probe = nav.offsetHeight / 2;
+    nav.classList.toggle('on-light', lights.some(el => {
+      const b = el.getBoundingClientRect();
+      return b.top <= probe && b.bottom > probe;
+    }));
     if (ground) {
       const b = ground.getBoundingClientRect();
       const g = Math.min(clamp((vh * 0.9 - b.top) / (vh * 0.45)), clamp((b.bottom - vh * 0.8) / (vh * 0.4)));
